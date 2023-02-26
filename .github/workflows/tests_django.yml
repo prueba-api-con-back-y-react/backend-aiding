@@ -11,9 +11,9 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
-      MYSQL_USER: root
+      MYSQL_USER: test
       MYSQL_DB: mysql
-      MYSQL_PASSWORD: root
+      MYSQL_PASSWORD: test
       MYSQL_ROOT_PASSWORD: root
     services:
       mysql:
@@ -21,8 +21,8 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: mysql
-          MYSQL_USER: root
-          MYSQL_PASSWORD: root
+          MYSQL_USER: test
+          MYSQL_PASSWORD: test
         ports:
           - 3306:3306
         options: >-
