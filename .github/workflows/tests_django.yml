@@ -34,8 +34,6 @@ jobs:
         mysql version: '8.0'
         mysql database: 'mysql'
         mysql root password: 'root'
-        mysql user: 'root'
-        mysql password: 'root'
     
     - name: Run migrations (unnecessary)
       run: |
