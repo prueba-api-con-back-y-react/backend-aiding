@@ -10,6 +10,26 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    env:
+      MYSQL_USER: root
+      MYSQL_DB: mysql
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: mysql
+          MYSQL_USER: root
+          MYSQL_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
     strategy:
       max-parallel: 4
       matrix:
@@ -28,12 +48,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         
-    - name: Set up MySQL
-      uses: mirromutth/mysql-action@v1.1
-      with:
-        mysql version: '8.0'
-        mysql database: 'mysql'
-        mysql root password: 'root'
+    - name: Debug
+      run: |
+        mysql --host=127.0.0.1 --user=${{ env.MYSQL_USER }} --password=${{ env.MYSQL_PASSWORD }} ${{ env.MYSQL_DB }} 
     
     - name: Run migrations (unnecessary)
       run: |
