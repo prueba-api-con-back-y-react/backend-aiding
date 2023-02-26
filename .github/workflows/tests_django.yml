@@ -14,12 +14,6 @@ jobs:
       max-parallel: 4
       matrix:
         python-version: [3.10.7, 3.10.9]
-        
-    env:
-      DB_DATABASE: mysql
-      DB_USER: root
-      DB_PASSWORD: root
-
 
     steps:
     - uses: actions/checkout@v3
@@ -35,13 +29,18 @@ jobs:
         pip install -r requirements.txt
         
     - name: Set up MySQL
-      run: |
-        sudo /etc/init.d/mysql start
-        mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
+      uses: mirromutth/mysql-action@v1.1
+      with:
+        mysql version: '8.0'
+        mysql database: 'mysql'
+        mysql root password: 'root'
+        mysql user: 'root'
+        mysql password: 'root'
     
     - name: Run migrations (unnecessary)
       run: |
         cd aiding
+        python manage.py makemigrations
         python manage.py migrate
     
     - name: Run Tests
